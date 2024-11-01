@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener</title>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 500px;
+        margin-top: 50px;
+      }
+      h1 {
+        color: #007bff;
+        font-weight: bold;
+        text-align: center;
+      }
+      .card {
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .btn-primary {
+        width: 100%;
+      }
+      .generated-url {
+        margin-top: 1.5rem;
+        padding: 0.8rem;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .copy-btn {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <div class="card">
+        <form method="POST" action="/url">
+          <div class="form-group">
+            <label for="urlInput">Enter URL for shortening</label>
+            <input
+              type="text"
+              name="url"
+              class="form-control"
+              id="urlInput"
+              aria-describedby="urlHelp"
+              placeholder="https://example.com"
+              required
+            />
+            <small id="urlHelp" class="form-text text-muted"
+              >We'll never share your URL with anyone else.</small
+            >
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Get Shortened Link
+          </button>
+        </form>
+
+        <% if (locals.id) { %>
+          <div class="generated-url">
+            <span>
+              <strong>Generated URL:</strong>
+              <a id="generatedUrl" href="http://localhost:8001/url/<%= locals.id %>">
+                http://localhost:8001/url/<%= locals.id %>
+              </a>
+            </span>
+            <button
+              onclick="copyToClipboard()"
+              class="btn btn-secondary btn-sm copy-btn"
+            >
+              Copy
+            </button>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <script>
+      function copyToClipboard() {
+        const generatedUrl = document.getElementById("generatedUrl").href;
+        navigator.clipboard.writeText(generatedUrl).then(
+          function () {
+            alert("URL copied to clipboard!");
+          },
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+    </script>
+  </body>
+</html>
